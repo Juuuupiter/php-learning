@@ -55,5 +55,14 @@ class User extends CI_Controller {
             echo "fail";
         }
     }
+    public function check_email(){
+        $email = $this->input->get('email');
+        $result = $this->user_model->get_user_by_email($email);
+        if(count($result) > 0){
+            echo '1';
+        }else{
+            echo '0';
+        }
+    }
 
 }
