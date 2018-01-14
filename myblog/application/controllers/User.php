@@ -48,7 +48,7 @@ class User extends CI_Controller {
             'pool'      => '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
 
             // White background and border, black text and red grid
-            'colors'    => array(
+                'colors'    => array(
                 'background' => array(255, 255, 255),
                 'border' => array(255, 255, 255),
                 'text' => array(0, 0, 0),
@@ -100,6 +100,31 @@ class User extends CI_Controller {
             echo "fail";
         }
     }
+    public function add_article(){
+        $title = $this->input->get('title');
+        $content = $this->input->get('content');
+        $type_id = $this->input->get('type_id');
+        $user = $this->session->userdata('user');
+        if($title == null){
+            echo 'title-error';
+            die();
+        }
+        if($content == null){
+            echo 'content_error';
+            die();
+        }
+        $row = $this->user_model->add_article(array(
+            'title'=>$title,
+            'content'=>$content,
+            'type_id'=>$type_id,
+            'user_id'=>$user->user_id
+        ));
+        if($row>0){
+            echo "success";
+        }else{
+            echo "fail";
+        }
+    }
 
     public function check_email(){
         $email = $this->input->get('email');
@@ -134,10 +159,13 @@ class User extends CI_Controller {
         $this->session->set_userdata(array(
            'user'=>$result[0]
         ));
-        redirect("welcome/index");
+        redirect("welcome/index_login");
     }
      public function logout(){
          $this->session->unset_userdata('user');
          redirect("welcome/index");
      }
+    public function admin_index(){
+        $this->load->view('adminIndex');
+    }
 }

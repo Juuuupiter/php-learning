@@ -12,6 +12,10 @@ class user_model extends CI_Model
        return $this -> db -> insert('t_user', $user);
        return $this -> db->affected_rows();
    }
+    public function add_article($article){
+        return $this -> db -> insert('t_article', $article);
+        return $this -> db->affected_rows();
+    }
 
 //    public function user_list(){
 //        $query = $this->db->get('name');
