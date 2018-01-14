@@ -116,14 +116,14 @@
     	<tr>
     		<th>验证码：</th>		
     		<td><input id="f_vcode" name="verifyCode" size="6" class="TEXT" type="text">
-			<span><a href="javascript:_rvi()">换另外一个图</a></span>
+			<span><a id="change_code" href="javascript:;" >换另外一个图</a></span>
 			</td>
     	</tr>
 		<tr>
     		<th>&nbsp;</th>		
-			<td>
-			<img id="img_vcode" alt="..." src="assets/images/captcha.png" style="border: 2px solid rgb(204, 204, 204);" align="absmiddle">
-            <script language="javascript">function _rvi(){document.getElementById('img_vcode').src = '/action/user/captcha?t='+Math.random(1000);}</script>
+			<td id="show-code">
+			<?php echo $img?>
+<!--            <script language="javascript">function _rvi(){document.getElementById('img_vcode').src = '/action/user/captcha?t='+Math.random(1000);}</script>-->
 			</td>
 		</tr>
     	<tr class="buttons">
@@ -172,6 +172,7 @@ $(function(){
 	   var pwd = $('#f_pwd').val();
 	   var pwd2 = $('#f_pwd2').val();
 	   var province = $('#userProvince').val();
+	   var code=$('#f_vcode').val();
 
 	   $.get('user/add_user',{
 		   email:email,
@@ -179,17 +180,29 @@ $(function(){
 		   gender:sex,
 		   pwd:pwd,
 		   pwd2:pwd2,
-		   province:province
+		   province:province,
+		   code:code
 	   },function(data){
 		   if(data == 'pwd-error'){
 			   $('#error_msg').html("两次密码不一致");
 			   $('#error_msg').show("fast");
-		   }else{
-			   location.href = 'user/login';
+		   }else if(data=='code-error'){
+			   $('#error_msg').html("验证码不正确");
+			   $('#error_msg').show("fast");
+		   } else{
+			   location.href = 'user/auto_login?email='+email;
 		   }
 
 	   },'text');
-   })
+   });
+
+	$('#change_code').on('click',function(){
+		$.get('user/change_code',{},function(data){
+            $('#show-code').html(data);
+		},'text');
+	})
+
+
 })
 //<!--
 //$('#frm_reg').ajaxForm({

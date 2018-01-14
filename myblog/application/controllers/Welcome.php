@@ -28,8 +28,8 @@ class Welcome extends CI_Controller {
 	{
 		$results =$this->Article_model->get_article_list();
 
-		$user = $this->session->userdata('user');
-		$types = $this->Article_model->get_article_type($user->user_id);
+//		$user = $this->session->userdata('user');
+		$types = $this->Article_model->get_article_type();
 
 		$this->load->view('index',array('list'=>$results,'types'=>$types));
 	}
