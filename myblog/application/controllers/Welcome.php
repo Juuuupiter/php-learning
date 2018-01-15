@@ -74,4 +74,49 @@ class Welcome extends CI_Controller {
 
 		$this->load->view('newBlog',array('types'=>$types));
 	}
+	public function blog_catalogs(){
+		$user = $this->session->userdata('user');
+		$types = $this->Article_model->get_logined_article_type($user->user_id);
+		$this->load->view('blogCatalogs',array('types'=>$types));
+	}
+
+		public function change_type(){
+			$type = $this->input->get('type');
+			$type_id = $this->input->get('type_id');
+			$rows = $this->Article_model->change_type($type,$type_id);
+			if($rows>0){
+				echo 'success';
+			}
+	}
+	public function del_type(){
+		$type_id = $this->input->get('type_id');
+		$user = $this->session->userdata('user');
+
+		$result = $this->Article_model->get_type_by_id_userid($user->user_id,$type_id);
+		if(count($result) == 0){
+			echo 'fail';
+		}else{
+			$rows = $this->Article_model->del_type($type_id);
+			if($rows >0){
+				echo 'success';
+			}
+		}
+	}
+
+	public function blogs(){
+		$user = $this->session->userdata('user');
+
+		$total = $this->Article_model->get_logined_count_article($user->user_id);
+		$results = $this->Article_model->get_blogs_by_user($user->user_id);
+
+		$this->load->view('blogs',array('list'=>$results,'total'=>$total));
+	}
+
+	public function del_article(){
+		$ids = $this->input->get('ids');
+		$rows = $this->Article_model->del_article_by_id($ids);
+		if($rows>0){
+			echo 'success';
+		}
+	}
 }

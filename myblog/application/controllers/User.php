@@ -22,6 +22,7 @@ class User extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('user_model');
+        $this->load->model('Article_model');
     }
     public function login()
     {
@@ -161,11 +162,47 @@ class User extends CI_Controller {
         ));
         redirect("welcome/index_login");
     }
+
      public function logout(){
          $this->session->unset_userdata('user');
          redirect("welcome/index");
      }
+
     public function admin_index(){
         $this->load->view('adminIndex');
     }
+
+//    public function add_type(){
+//        $type_name = $this->input->get('type');
+//        $user = $this->session->userdata('user');
+//        if($type_name == null){
+//            echo 'title-error';
+//            die();
+//        }
+//        $row = $this->Article_model->add_type($type_name, $user->user_id);
+//        if($row>0){
+//            echo "success";
+//        }else{
+//            echo "fail";
+//        }
+//
+//    }
+     public function add_type(){
+         $type = $this->input->get('type');
+         $user = $this->session->userdata('user');
+         if($type == null){
+            echo 'title-error';
+            die();
+        }
+         $row = $this->Article_model->add_new_type(array(
+             'type_name'=>$type,
+             'user_id'=>$user->user_id
+         ));
+         if($row>0){
+            echo "success";
+         }else{
+            echo "fail";
+        }
+     }
+
 }

@@ -46,13 +46,13 @@
 </div><!-- #EndLibraryItem --><div id="OSC_Topbar">
 	  <div id="VisitorInfo">
 		当前访客身份：
-		  <?php
-//		  $user = $this->session->userdata('user');
-		  if(isset($user)){
-			  echo $user->username;
-			  ?>
-			  <a href='user/logout'>退出</a>
-		  <?php }else{?>
+			  <?php
+	//		  $user = $this->session->userdata('user');
+			  if(isset($user)){
+				  echo $user->username;
+				  ?>
+				  <a href='user/logout'>退出</a>
+			  <?php }else{?>
 			  游客 [ <a href="user/login">登录</a> | <a href="user/reg">注册</a> ]
 		  <?php }?>
 				<span id="OSC_Notification">
@@ -71,7 +71,15 @@
 	<div id="OSC_Content"><div class="SpaceChannel">
 	<div id="portrait"><a href="adminIndex.htm"><img src="assets/images/portrait.gif" alt="Johnny" title="Johnny" class="SmallPortrait" user="154693" align="absmiddle"></a></div>
     <div id="lnks">
-		<strong>Johnny的博客</strong>
+		<strong> <?php
+			//		  $user = $this->session->userdata('user');
+			if(isset($user)){
+			echo $user->username;
+			?> <?php }else{?>
+				Jhonny
+			<?php }?>
+			的博客
+		</strong>
 		<div>
 			<a href="#">TA的博客列表</a>&nbsp;|
 			<a href="sendMsg.htm">发送留言</a>
@@ -108,6 +116,8 @@
 	  </li>
 	<?php } ?>
 </ul>
+
+	<?php echo $links ?>
 <div class="clear"></div>
 	</div>
 <div class="BlogMenu"><div class="catalogs SpaceModule">
@@ -122,6 +132,7 @@
   <strong>最新网友评论</strong>
     	<p class="NoData">目前还没有任何评论</p>
   </div></div>
+		<?php echo $links?>
 <div class="clear"></div>
 <script type="text/javascript" src="assets/js/brush.js"></script>
 <link type="text/css" rel="stylesheet" href="assets/css/shCore.css">
